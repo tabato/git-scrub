@@ -1,0 +1,36 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "git-scrub"
+version = "0.1.0"
+description = "Scan GitHub orgs and user profiles for a committed email address and rewrite it out of history."
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.9"
+authors = [{ name = "Thomas Abato", email = "99261656+tabato@users.noreply.github.com" }]
+keywords = ["git", "github", "privacy", "email", "history"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Version Control :: Git",
+]
+dependencies = [
+    "click>=8.0",
+    "requests>=2.28",
+]
+
+[project.scripts]
+git-scrub = "git_scrub.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/tabato/git-scrub"
+Issues = "https://github.com/tabato/git-scrub/issues"
