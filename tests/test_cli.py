@@ -1,7 +1,10 @@
 """CLI validation tests — no network calls required."""
+from unittest.mock import MagicMock
+
 from click.testing import CliRunner
 
 from git_scrub.cli import main
+from git_scrub.github import _next_url
 
 
 def invoke(*args):
@@ -55,10 +58,6 @@ def test_version():
 
 
 # ── GitHub pagination helper ──────────────────────────────────────────────────
-
-from unittest.mock import MagicMock
-from git_scrub.github import _next_url
-
 
 def _mock_resp(link_header):
     resp = MagicMock()
