@@ -63,14 +63,24 @@ def list_repos(owner: str, owner_type: str, token: str) -> list[str]:
     return repos
 
 
-def count_email_in_repo(repo: str, email: str, token: str) -> int:
-    """Count commits on the default branch whose author email matches."""
+def count_email_in_repo(
+    repo: str, email: str, token: str, branch: str | None = None
+) -> int:
+    """Count commits whose author or committer email matches.
+
+    Checks the default branch unless `branch` is specified.
+    """
     count = 0
     url = f"{BASE}/repos/{repo}/commits"
+    params = {"sha": branch} if branch else {}
     try:
-        for page in _get_pages(url, token):
+        for page in _get_pages(url, token, params):
             for commit in page:
-                if commit.get("commit", {}).get("author", {}).get("email") == email:
+                c = commit.get("commit", {})
+                if (
+                    c.get("author", {}).get("email") == email
+                    or c.get("committer", {}).get("email") == email
+                ):
                     count += 1
     except requests.HTTPError as exc:
         if exc.response is not None and exc.response.status_code == 409:
@@ -80,5 +90,7 @@ def count_email_in_repo(repo: str, email: str, token: str) -> int:
     return count
 
 
-def verify_clean(repo: str, email: str, token: str) -> bool:
-    return count_email_in_repo(repo, email, token) == 0
+def verify_clean(
+    repo: str, email: str, token: str, branch: str | None = None
+) -> bool:
+    return count_email_in_repo(repo, email, token, branch) == 0
