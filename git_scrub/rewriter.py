@@ -33,11 +33,12 @@ def cloned_repo(repo: str):
 
 def filter_email(repo_dir: Path, old_email: str, new_email: str) -> None:
     """Rewrite every commit in every branch/tag to replace old_email with new_email."""
+    mailmap = repo_dir / ".git-scrub-mailmap"
+    mailmap.write_text(f" <{new_email}> <{old_email}>\n")
     _run(
         [
             "git-filter-repo",
-            "--email-callback",
-            f"return email.replace(b'{old_email}', b'{new_email}')",
+            "--mailmap", str(mailmap),
             "--force",
         ],
         cwd=repo_dir,
