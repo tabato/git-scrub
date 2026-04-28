@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "git-scrub"
-version = "0.1.0"
+version = "0.1.1"
 description = "Scan GitHub orgs and user profiles for a committed email address and rewrite it out of history."
 readme = "README.md"
 license = { text = "MIT" }
